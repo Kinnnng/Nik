@@ -131,7 +131,7 @@ Python 3.x
 
 
 from scapy.layers.inet import IP, TCP, UDP, ICMP
-#Scapy хранит пакет как “слоёный пирог” из протоколов (слоёв).
+#Scapy хранит пакет из протоколов (слоёв).
 
 def parse_packet(pkt) -> dict | None:
     if IP not in pkt:
