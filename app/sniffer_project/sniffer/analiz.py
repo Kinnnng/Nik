@@ -1,5 +1,5 @@
 #сильно под сомнением, сделать проще
-
+# комиты
 
 
 from collections import Counter, defaultdict
@@ -118,4 +118,5 @@ class PacketAnalyzer:
         
         print("\nРазговоры:")
         for chat, count in s['conversations'].items():
+
             print(f"  {chat}: {count} пакетов")
