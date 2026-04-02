@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from tkinter import ttk
 import hashlib
@@ -108,8 +107,8 @@ def open_encrypt_window():
             result_label.delete(0, tk.END)      # очищаем поле
             result_label.insert(0, result) 
         else:
-            result_entry.delete(0, tk.END)
-            result_entry.insert(0, "Ошибка: введите ключ")
+            result_label.delete(0, tk.END)
+            result_label.insert(0, "Ошибка: введите ключ")
 
     encrypt_btn = ttk.Button(encrypt, text="encrypt", command=encrypt_action)
     encrypt_btn.pack()
@@ -147,7 +146,7 @@ def open_decrypt_window():
             result_label.delete(0, tk.END)
             result_label.insert(0, result)  # вставляем ТЕКСТ
         else:
-            result_entry.insert(0, "Ошибка: введите ключ")
+           result_label.insert(0, "Ошибка: введите ключ")
         
 
     decrypt_btn = ttk.Button(decrypt, text = "decrypt", command= decrypt_action)
@@ -200,22 +199,108 @@ def open_generation_password():
     btn = ttk.Button(generation, text="Generate", command=generation_password)
     btn.pack()    
 
+
+
 def CTF_task():
     ctf = tk.Toplevel(window)
     ctf.title("CTF task")
     ctf.geometry("600x500")
 
-    task1_btn = ttk.Button(ctf, text="TASK1",)
-    task1_btn.pack()
-
-
     def task1_ez():
         task1 = tk.Toplevel(ctf)
-        task1.title("CTF task")
+        task1.title("TASK 1")
         task1.geometry("600x500")
 
-    task1_btn.config(command=task1_ez)
+        secret_text = "hello"
+        real_key = "dragon"
+        encrypted_key = "ftciqp"   # ключ, зашифрованный Цезарем
+        hex_text = xor_encrypt(secret_text, hash_key(real_key))
+
+        label = tk.Label(task1,text="Гай Юлий Цезарь — древнеримский государственный и политический деятель")
+        label.pack(pady=10)
+
+        label = tk.Label(task1, text=f"Зашифрованный ключ: {encrypted_key}")
+        label.pack(pady=5)
+
+        label = tk.Label(task1, text=f"HEX строка: {hex_text}")
+        label.pack(pady=5)
+
+        label = tk.Label(task1, text="Введи расшифрованный текст:")
+        label.pack(pady=5)
+
+        answer = tk.Entry(task1, width=50)
+        answer.pack(pady=5)
+
+        result_label = tk.Label(task1, text="")
+        result_label.pack(pady=10)
+
+        def check_answer():
+            user_answer = answer.get()
+
+            if user_answer == secret_text:
+                result_label.config(text="Верно! Ты решил задачу.")
+            else:
+                result_label.config(text="Неверно. Попробуй ещё раз.")
+
+        btn = tk.Button(task1, text="Проверить", command=check_answer)
+        btn.pack(pady=10)
+    
+    
+    def task2_mediun():
+        task2 = tk.Toplevel(ctf)
+        task2.title("Task2")
+        task2.geometry("600x500")
         
+        secret_text = "LOL"
+        real_key = "Bear"
+        encoded_key = "QmVhcg=="
+        
+        hex_text = xor_encrypt(secret_text, hash_key(real_key))
+        
+        label = tk.Label(task2,text="Base64")
+        label.pack(pady=10)
+
+        label = tk.Label(task2, text=f"Зашифрованный ключ: {encoded_key}")
+        label.pack(pady=5)
+
+        label = tk.Label(task2, text=f"HEX строка: {hex_text}")
+        label.pack(pady=5)
+
+        label = tk.Label(task2, text="Введи расшифрованный текст:")
+        label.pack(pady=5)
+
+        answer = tk.Entry(task2, width=50)
+        answer.pack(pady=5)
+
+        result_label = tk.Label(task2, text="")
+        result_label.pack(pady=10)
+        
+        
+        
+        def check_task2():
+            user_answer = answer.get()
+            
+            if user_answer == secret_text:
+                result_label.config(text="Верно! Ты решил задачу.")
+                
+            else:
+                result_label.config(text="Неверно. Попробуй ещё раз.")
+                
+        btn = tk.Button(task2, text="Проверить", command=check_task2)
+        btn.pack(pady=10)
+        
+    task1_btn = ttk.Button(ctf, text="TASK1", command=task1_ez)
+    task1_btn.pack(pady=10)
+
+    task2_btn = ttk.Button(ctf, text="TASK2", command=task2_mediun)
+    task2_btn.pack(pady=10)
+
+    task3_btn = ttk.Button(ctf, text="TASK3")
+    task3_btn.pack(pady=10)      
+
+    task1_btn.config(command=task1_ez)
+    
+
 encrypt_btn.config(command=open_encrypt_window)
 decrypt_btn.config(command=open_decrypt_window)
 generation_btn.config(command=open_generation_password)
